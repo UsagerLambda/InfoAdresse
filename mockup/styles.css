@@ -1,0 +1,658 @@
+/* Style général */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #f5f5f5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+button {
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-outline {
+    border: 1px solid #333;
+    background: transparent;
+    color: #333;
+}
+
+.btn-outline:hover {
+    background: #eaeaea;
+}
+
+.btn-solid {
+    border: none;
+    background-color: #333;
+    color: white;
+}
+
+.btn-solid:hover {
+    background-color: #111;
+}
+
+/* Layout principal */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Section hero */
+.hero {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Formulaire d'adresse */
+.address-form {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.address-form label {
+    font-size: 1rem;
+    color: #333;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.input-wrapper input[type="text"] {
+    padding: 0.6rem 2.5rem 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.2s;
+    width: 100%;
+}
+
+.input-wrapper input[type="text"]:focus {
+    border-color: #333;
+    outline: none;
+}
+
+.input-wrapper .arrow {
+    position: absolute;
+    right: 0.8rem;
+    font-size: 1.2rem;
+    color: #333;
+    pointer-events: none;
+}
+
+.btn-search {
+    padding: 0.6rem 1rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+.btn-search:hover {
+    background-color: #111;
+}
+
+/* Résultats d'adresse */
+.results {
+    margin-top: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    display: none;
+}
+
+.results.active {
+    display: block;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.result-header h2 {
+    font-size: 1.2rem;
+}
+
+.result-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.result-section {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.result-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.result-item-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.result-item-value {
+    text-align: right;
+    color: #333;
+}
+
+.risk-item {
+    background-color: #fff0f0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid #ff7676;
+}
+
+.georisques-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #333;
+    transition: border-color 0.2s;
+}
+
+.georisques-link:hover {
+    border-color: transparent;
+}
+
+/* Formulaires d'authentification */
+.auth-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.auth-tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.auth-tab {
+    flex: 1;
+    text-align: center;
+    padding: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.auth-tab.active {
+    background-color: #f5f5f5;
+    border-bottom: 3px solid #333;
+}
+
+.auth-forms {
+    padding: 2rem;
+}
+
+.form-container {
+    display: none;
+}
+
+.form-container.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #333;
+    outline: none;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.auth-button:hover {
+    background-color: #111;
+}
+
+.auth-actions {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #666;
+}
+
+.auth-actions a {
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #333;
+    transition: border-color 0.3s;
+}
+
+.auth-actions a:hover {
+    border-color: transparent;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Page de profil */
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.user-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    background-color: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.user-menu-btn:hover {
+    background-color: #f5f5f5;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #333;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.user-menu-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 200px;
+    z-index: 10;
+    display: none;
+}
+
+.user-menu-dropdown.active {
+    display: block;
+}
+
+.menu-item {
+    padding: 0.8rem 1rem;
+    display: block;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #f5f5f5;
+}
+
+.menu-item.logout {
+    color: #e74c3c;
+    border-top: 1px solid #eee;
+}
+
+.profile-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+}
+
+.profile-sidebar {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #333;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0 auto 1.5rem;
+}
+
+.profile-name {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.profile-email {
+    text-align: center;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.profile-action {
+    display: block;
+    padding: 0.8rem;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    color: #333;
+    text-decoration: none;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.profile-action:hover {
+    background-color: #eee;
+}
+
+.profile-action.edit {
+    background-color: #333;
+    color: white;
+}
+
+.profile-action.edit:hover {
+    background-color: #111;
+}
+
+.profile-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-section {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+}
+
+.profile-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-section-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.profile-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.profile-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.profile-form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.profile-form-group input:focus {
+    border-color: #333;
+    outline: none;
+}
+
+.profile-form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.profile-form-row .profile-form-group {
+    flex: 1;
+}
+
+.profile-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.profile-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.profile-btn-outline {
+    background-color: transparent;
+    border: 1px solid #333;
+    color: #333;
+}
+
+.profile-btn-outline:hover {
+    background-color: #f5f5f5;
+}
+
+.profile-btn-solid {
+    background-color: #333;
+    border: none;
+    color: white;
+}
+
+.profile-btn-solid:hover {
+    background-color: #111;
+}
+
+.saved-addresses {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.address-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #eee;
+}
+
+.address-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.address-card-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.address-card-content {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.address-card-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.address-card-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+    transition: all 0.2s;
+}
+
+.address-card-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.address-card-btn.view {
+    border-color: #333;
+    color: #333;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Media Queries pour responsivité */
+@media (max-width: 768px) {
+    .profile-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-sections {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

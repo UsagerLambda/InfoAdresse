@@ -8,11 +8,12 @@ from core.config import CORS_ORIGINS
 
 Base.metadata.create_all(bind=engine)
 
+# Initialise l'app
 app = FastAPI(
         title="API InfoAdresse",
         description="API du service web InfoAdresse",
         version="1.0.0"
-    ) # Initialise l'app
+    )
 
 # CORS
 app.add_middleware(

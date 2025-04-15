@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoAdresse - Connexion/Inscription</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">InfoAdresse</a>
+    </header>
+    
+    <main>
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="login-tab">Connexion</div>
+                <div class="auth-tab" id="register-tab">Inscription</div>
+            </div>
+            
+            <div class="auth-forms">
+                <!-- Formulaire de connexion -->
+                <form class="form-container active" id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required placeholder="votre@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" id="login-password" required placeholder="Votre mot de passe">
+                    </div>
+                    
+                    <button type="submit" class="auth-button">Se connecter</button>
+                    
+                    <div class="auth-actions">
+                        <p>Vous n'avez pas de compte ? <a href="#" id="go-to-register">Inscrivez-vous</a></p>
+                    </div>
+                </form>
+                
+                <!-- Formulaire d'inscription -->
+                <form class="form-container" id="register-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="register-firstname">Prénom</label>
+                            <input type="text" id="register-firstname" required placeholder="Votre prénom">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-lastname">Nom</label>
+                            <input type="text" id="register-lastname" required placeholder="Votre nom">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required placeholder="votre@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" id="register-password" required placeholder="Choisissez un mot de passe sécurisé">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password-confirm">Confirmer le mot de passe</label>
+                        <input type="password" id="register-password-confirm" required placeholder="Confirmer votre mot de passe">
+                    </div>
+                    
+                    <button type="submit" class="auth-button">S'inscrire</button>
+                    
+                    <div class="auth-actions">
+                        <p>Vous avez déjà un compte ? <a href="#" id="go-to-login">Connectez-vous</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2025 InfoAdresse - Toutes les données sont fournies à titre informatif</p>
+    </footer>
+    
+    <script>
+        // Gestion des onglets
+        document.getElementById('login-tab').addEventListener('click', function() {
+            document.getElementById('login-tab').classList.add('active');
+            document.getElementById('register-tab').classList.remove('active');
+            document.getElementById('login-form').classList.add('active');
+            document.getElementById('register-form').classList.remove('active');
+            history.pushState(null, '', 'login.html');
+        });
+        
+        document.getElementById('register-tab').addEventListener('click', function() {
+            document.getElementById('register-tab').classList.add('active');
+            document.getElementById('login-tab').classList.remove('active');
+            document.getElementById('register-form').classList.add('active');
+            document.getElementById('login-form').classList.remove('active');
+            history.pushState(null, '', 'login.html#register');
+        });
+        
+        // Vérifier si l'URL contient un hash pour l'inscription
+        if(window.location.hash === '#register') {
+            document.getElementById('register-tab').click();
+        }
+        
+        // Liens entre les formulaires
+        document.getElementById('go-to-register').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('register-tab').click();
+        });
+        
+        document.getElementById('go-to-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('login-tab').click();
+        });
+        
+        // Gestion des soumissions de formulaires
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Simuler une connexion réussie
+            window.location.href = 'profile.html';
+        });
+        
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Vérifier que les mots de passe correspondent
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-password-confirm').value;
+            
+            if (password !== confirmPassword) {
+                alert('Les mots de passe ne correspondent pas');
+                return;
+            }
+            
+            // Simuler une inscription réussie
+            window.location.href = 'profile.html';
+        });
+    </script>
+</body>
+</html>

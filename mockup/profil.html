@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoAdresse - Profil utilisateur</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">InfoAdresse</a>
+        <div class="user-menu">
+            <div class="user-menu-btn" id="user-menu-toggle">
+                <div class="user-avatar">M</div>
+                <span>Martin Dupont</span>
+            </div>
+            <div class="user-menu-dropdown" id="user-dropdown">
+                <a href="profile.html" class="menu-item">Mon profil</a>
+                <a href="#" class="menu-item">Mes adresses</a>
+                <a href="index.html" class="menu-item logout">Déconnexion</a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <div class="profile-avatar">M</div>
+                <h1 class="profile-name">Martin Dupont</h1>
+                <p class="profile-email">martin.dupont@example.com</p>
+                <a href="#" class="profile-action edit" id="edit-profile-btn">Modifier mon profil</a>
+                <a href="#" class="profile-action" id="saved-addresses-btn">Mes adresses sauvegardées</a>
+                <a href="#" class="profile-action">Paramètres de confidentialité</a>
+                <a href="index.html" class="profile-action">Se déconnecter</a>
+            </div>
+            
+            <div class="profile-main">
+                <div class="profile-section" id="profile-info-section">
+                    <div class="profile-section-header">
+                        <h2 class="profile-section-title">Informations personnelles</h2>
+                    </div>
+                    
+                    <form class="profile-form">
+                        <div class="profile-form-row">
+                            <div class="profile-form-group">
+                                <label for="firstname">Prénom</label>
+                                <input type="text" id="firstname" value="Martin">
+                            </div>
+                            
+                            <div class="profile-form-group">
+                                <label for="lastname">Nom</label>
+                                <input type="text" id="lastname" value="Dupont">
+                            </div>
+                        </div>
+                        
+                        <div class="profile-form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="martin.dupont@example.com">
+                        </div>
+                        
+                        <div class="profile-form-group">
+                            <label for="current-password">Mot de passe actuel</label>
+                            <input type="password" id="current-password" placeholder="Entrez votre mot de passe actuel">
+                        </div>
+                        
+                        <div class="profile-form-row">
+                            <div class="profile-form-group">
+                                <label for="new-password">Nouveau mot de passe</label>
+                                <input type="password" id="new-password" placeholder="Nouveau mot de passe">
+                            </div>
+                            
+                            <div class="profile-form-group">
+                                <label for="confirm-password">Confirmer le mot de passe</label>
+                                <input type="password" id="confirm-password" placeholder="Confirmez le nouveau mot de passe">
+                            </div>
+                        </div>
+                        
+                        <div class="profile-form-actions">
+                            <button type="button" class="profile-btn profile-btn-outline">Annuler</button>
+                            <button type="submit" class="profile-btn profile-btn-solid">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="profile-section" id="saved-addresses-section" style="display: none;">
+                    <div class="profile-section-header">
+                        <h2 class="profile-section-title">Mes adresses sauvegardées</h2>
+                    </div>
+                    
+                    <div class="saved-addresses">
+                        <div class="address-card">
+                            <h3 class="address-card-title">20 avenue de Ségur, 75007 Paris</h3>
+                            <p class="address-card-content">
+                                Section: BN<br>
+                                Parcelle: 52<br>
+                                Zone: UCa
+                            </p>
+                            <div class="address-card-actions">
+                                <button class="address-card-btn">Supprimer</button>
+                                <button class="address-card-btn view">Voir</button>
+                            </div>
+                        </div>
+                        
+                        <div class="address-card">
+                            <h3 class="address-card-title">15 rue de la Paix, 75002 Paris</h3>
+                            <p class="address-card-content">
+                                Section: AQ<br>
+                                Parcelle: 124<br>
+                                Zone: UBc
+                            </p>
+                            <div class="address-card-actions">
+                                <button class="address-card-btn">Supprimer</button>
+                                <button class="address-card-btn view">Voir</button>
+                            </div>
+                        </div>
+                        
+                        <div class="address-card">
+                            <h3 class="address-card-title">8 boulevard Haussmann, 75009 Paris</h3>
+                            <p class="address-card-content">
+                                Section: DC<br>
+                                Parcelle: 87<br>
+                                Zone: UAp
+                            </p>
+                            <div class="address-card-actions">
+                                <button class="address-card-btn">Supprimer</button>
+                                <button class="address-card-btn view">Voir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2025 InfoAdresse - Toutes les données sont fournies à titre informatif</p>
+    </footer>
+    
+    <script>
+        // Gestion du menu utilisateur
+        document.getElementById('user-menu-toggle').addEventListener('click', function() {
+            document.getElementById('user-dropdown').classList.toggle('active');
+        });
+        
+        // Cliquer en dehors du menu pour le fermer
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('user-menu-toggle');
+            const dropdown = document.getElementById('user-dropdown');
+            
+            if (!userMenu.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+        
+        // Gestion des sections du profil
+        const profileInfoSection = document.getElementById('profile-info-section');
+        const savedAddressesSection = document.getElementById('saved-addresses-section');
+        
+        document.getElementById('edit-profile-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            profileInfoSection.style.display = 'block';
+            savedAddressesSection.style.display = 'none';
+        });
+        
+        document.getElementById('saved-addresses-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            profileInfoSection.style.display = 'none';
+            savedAddressesSection.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

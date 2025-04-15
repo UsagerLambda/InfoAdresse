@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoAdresse - Recherche d'informations sur une adresse</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">InfoAdresse</a>
+        <div class="auth-buttons">
+            <a href="login.html"><button class="btn-outline">Connexion</button></a>
+            <a href="login.html#register"><button class="btn-solid">Inscription</button></a>
+        </div>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h1>Toutes les informations sur une adresse</h1>
+            <p>Cadastre, PLU, risques naturels, démographie et plus encore en quelques secondes.</p>
+        </section>
+        
+        <section class="address-form">
+            <h2 class="form-title">Recherchez une adresse</h2>
+            <label for="address">Saisissez une adresse complète</label>
+            <div class="input-wrapper">
+                <input type="text" id="address" placeholder="Ex: 20 avenue de Ségur, 75007 Paris">
+                <span class="arrow">↓</span>
+            </div>
+            <button class="btn-search" id="search-btn">Rechercher</button>
+        </section>
+        
+        <section class="results" id="results">
+            <div class="result-header">
+                <h2>Résultats pour <span id="result-address">20 avenue de Ségur, 75007 Paris</span></h2>
+                <a href="#" id="save-btn" class="btn-outline">Enregistrer</a>
+            </div>
+            
+            <div class="result-sections">
+                <div class="result-section">
+                    <h3>Informations générales</h3>
+                    <div class="result-item">
+                        <span class="result-item-label">Adresse normalisée</span>
+                        <span class="result-item-value">20 avenue de Ségur, 75007 Paris</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Ville</span>
+                        <span class="result-item-value">Paris</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Code postal</span>
+                        <span class="result-item-value">75007</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Pays</span>
+                        <span class="result-item-value">France</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Population</span>
+                        <span class="result-item-value">15 200 habitants</span>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <h3>Coordonnées</h3>
+                    <div class="result-item">
+                        <span class="result-item-label">Longitude</span>
+                        <span class="result-item-value">2.308956</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Latitude</span>
+                        <span class="result-item-value">48.850646</span>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <h3>Informations cadastrales</h3>
+                    <div class="result-item">
+                        <span class="result-item-label">Feuille</span>
+                        <span class="result-item-value">000 BN 01</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Section</span>
+                        <span class="result-item-value">BN</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Numéro</span>
+                        <span class="result-item-value">52</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Superficie</span>
+                        <span class="result-item-value">1250 m²</span>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <h3>Plan Local d'Urbanisme</h3>
+                    <div class="result-item">
+                        <span class="result-item-label">Zone</span>
+                        <span class="result-item-value">UCa</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-item-label">Description</span>
+                        <span class="result-item-value">Zone urbaine centrale à forte densité</span>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <h3>Risques naturels</h3>
+                    <div class="risk-item">Inondation - Par une crue à débordement lent de cours d'eau</div>
+                    <div class="risk-item">Mouvement de terrain - Tassements différentiels</div>
+                    <a href="#" class="georisques-link">Consulter le dossier complet sur Géorisques</a>
+                </div>
+                
+                <div class="result-section">
+                    <h3>Risques industriels</h3>
+                    <div class="risk-item">Aucun risque industriel recensé</div>
+                    <a href="#" class="georisques-link">Consulter le dossier complet sur Géorisques</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2025 InfoAdresse - Toutes les données sont fournies à titre informatif</p>
+    </footer>
+    
+    <script>
+        document.getElementById('search-btn').addEventListener('click', function() {
+            document.getElementById('results').classList.add('active');
+            document.getElementById('result-address').textContent = document.getElementById('address').value || '20 avenue de Ségur, 75007 Paris';
+        });
+    </script>
+</body>
+</html>
