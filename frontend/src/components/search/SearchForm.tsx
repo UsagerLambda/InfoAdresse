@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import Button from '../common/Button';
-import api from '../../services/api';
+import api, { AddressSearchResult } from '../../services/api';
+import SearchResults from './SearchResults';
 
 const SearchForm: React.FC = () => {
   const [address, setAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [searchResult, setSearchResult] = useState<AddressSearchResult | null>(null);
+  const [showResults, setShowResults] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -12,10 +15,15 @@ const SearchForm: React.FC = () => {
     if (!address.trim()) return; // Si pas d'adresse, ne rien faire
     setIsLoading(true); // affiche le bouton comme "Recherche en cours..."
 
+    if (api.isAuthenticated()) { // si connecté, ajoute l'adresse dans l'historique
+      api.addToHistory(address)
+    }
+
     try {
       // call la méthode searchAddress du fichier api.tsx
       const result = await api.searchAddress(address);
-      console.log('Résultat de la recherche:', result);
+      setSearchResult(result); // enregistre le résultat dans une variable
+      setShowResults(true); // affiche les résultats de l'appel api
     } catch (error) {
       console.error('Erreur lors de la recherche d\'adresse:', error);
     } finally {
@@ -24,6 +32,7 @@ const SearchForm: React.FC = () => {
   };
 
   return (
+    <>
     <section className="p-8 max-w-2xl mx-auto bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Recherchez une adresse</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -44,6 +53,8 @@ const SearchForm: React.FC = () => {
         <Button variant="solid" size="md" fullWidth type="submit" disabled={isLoading}>{isLoading ? 'Recherche en cours...' : 'Rechercher'}</Button>
       </form>
     </section>
+    <SearchResults result={searchResult} visible={showResults} />
+    </>
   );
 };
 

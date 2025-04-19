@@ -1,10 +1,14 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 
+class HistoryItem(BaseModel):
+    history_item: str
+
 class UserBase(BaseModel):
     email: EmailStr
     first_name: str
     last_name: str
+    history: List[str] = []
 
 class CreateUserRequest(UserBase):
     password: str

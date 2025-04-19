@@ -2,13 +2,13 @@ import React from 'react';
 
 interface ButtonProps {
   children: React.ReactNode; // Contenu du bouton
-  variant?: 'outline' | 'solid'; // Style visuel du bouton
+  className?: string;
+  variant?: 'outline' | 'solid' | 'selected'; // Style visuel du bouton
   size?: 'sm' | 'md' | 'lg'; // Taille du bouton
   fullWidth?: boolean;
   onClick?: () => void; // Fonction à exécuter lors du clic
   type?: 'button' | 'submit' | 'reset'; // Type HTML du bouton
   disabled?: boolean; // Si le bouton est désactivé ou non
-  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -26,6 +26,7 @@ const Button: React.FC<ButtonProps> = ({
   const variantClasses = {
     outline: 'border border-gray-800 bg-transparent text-gray-800 hover:bg-gray-100', // Style contour
     solid: 'border-none bg-gray-800 text-white hover:bg-gray-900', // Style plein
+    selected: 'border-none bg-gray-800 text-white hover:bg-gray-900',
   };
 
   const sizeClasses = {

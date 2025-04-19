@@ -6,7 +6,7 @@ from jose import JWTError, jwt # type: ignore
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app.schemas.auth import CreateUserRequest, Token, TokenData, UserResponse, UpdateUserRequest
+from app.schemas.auth import CreateUserRequest, Token, TokenData, UserResponse, UpdateUserRequest, HistoryItem
 from app.models.user import User
 from core.database import get_db
 from core.config import JWT_SECRET_KEY, JWT_ALGORITHM, JWT_ACCESS_TOKEN_EXPIRE_MINUTES
@@ -106,7 +106,7 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Sessio
 # Retourne les infos de l'utilisateur s'il est connecté (en passant par la fonction get_current_user)
 @router.get("/me", response_model=UserResponse)
 def get_user_me(current_user: Annotated[User, Depends(get_current_user)]):
-    return current_user.to_dict()
+    return current_user.to_dict_history()
 
 # Renvoie la liste des users
 @router.get("/get_all")
@@ -114,7 +114,8 @@ def get_all_user(db: Session = Depends(get_db)):
     list_of_users = []
     users = db.query(User).all()
     for user in users:
-        list_of_users.append(user.to_dict())
+        user_dict = user.to_dict_history()
+        list_of_users.append(user_dict)
     return list_of_users
 
 # Prend un id d'utilisateur, et vérifie que l'utilisateur est connecté (get_current_user)
@@ -192,3 +193,32 @@ def update_user(user_id: str, user_data: UpdateUserRequest, current_user: Annota
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Erreur lors de la mise à jour de l'utilisateur"
         )
+
+
+@router.post("/history_add/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def history_add(user_id: str, item: HistoryItem, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    # l'utilisateur existe ?
+    user_to_update = db.query(User).filter(User.id == user_id).first()
+    if not user_to_update:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Utilisateur non trouvé"
+        )
+
+    # Vérifie si l'utilisateur est admin ou si l'id du token récupéré est le même que celui donné (la condition s'éxecute si elle est fausse dans les deux cas)
+    if not current_user.is_admin and current_user.id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Opération non autorisée"
+        )
+
+    if user_to_update.history is None:
+        user_to_update.history = []
+
+    current_history = user_to_update.history if user_to_update.history is not None else []
+    new_history = current_history + [item.history_item]
+    user_to_update.history = new_history
+    db.add(user_to_update)
+    db.commit()
+
+    return {"message": "Historique mis à jour avec succès"}

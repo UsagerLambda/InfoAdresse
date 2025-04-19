@@ -7,7 +7,7 @@ export const __keepTypesAlive__ = (): void => {
   };
 
 const API_BASE_URL = 'http://localhost:8000';
-const API_TIMEOUT = 15000;
+const API_TIMEOUT = 25000;
 
 // Interface reponse recherche d'adresse
 export interface AddressSearchResult {
@@ -49,12 +49,23 @@ export interface RegisterRequest {
   password: string;
 }
 
+// Interface Update
+export interface UpdateRequest {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  old_password: string;
+}
+
 // Interface Utilisateur
 export interface User {
   id: string;
   first_name: string;
   last_name: string;
   email: string;
+  history: string[];
+  is_admin?: boolean;
 }
 
 // Classe principale pour l'API
@@ -123,6 +134,7 @@ class Api {
   private async get<T>(endpoint: string, config?: AxiosRequestConfig): Promise<T> {
     try {
       const response = await this.api.get<T>(endpoint, config);
+      console.log(response)
       return response.data;
     } catch (error) {
       console.error(`Erreur GET ${endpoint}:`, error);
@@ -137,6 +149,16 @@ class Api {
       return response.data;
     } catch (error) {
       console.error(`Erreur POST ${endpoint}:`, error);
+      throw error;
+    }
+  }
+
+  private async put<T, D = unknown>(endpoint: string, data?: D, config?: AxiosRequestConfig): Promise<T> {
+    try {
+      const response = await this.api.put<T>(endpoint, data, config);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur PUT ${endpoint}:`, error);
       throw error;
     }
   }
@@ -166,8 +188,24 @@ class Api {
     return this.post<User>('/api/v1/auth/register', userData);
   }
 
+  public async deleteAccount(): Promise<void> {
+    try {
+      const userId = await this.getCurrentUser().then(user => user.id);
+      await this.api.delete(`/api/v1/auth/delete/${userId}`);
+      this.logout();
+    } catch (error) {
+      console.error('Erreur lors de la suppression du compte:', error);
+      throw error;
+    }
+  }
+
   public async getCurrentUser(): Promise<User> {
     return this.get<User>('/api/v1/auth/me');
+  }
+
+  public async addToHistory(item: string): Promise<void> {
+    const userId = await this.getCurrentUser().then(user => user.id);
+    await this.api.post(`/api/v1/auth/history_add/${userId}`, { history_item: item });
   }
 
   public logout(): void {
@@ -186,9 +224,14 @@ class Api {
     return this.get<User>('/api/v1/protected');
   }
 
-  public async updateUserProfile(data: Partial<RegisterRequest>): Promise<void> {
-    const userId = await this.getCurrentUser().then(user => user.id);
-    return this.post<void>(`/api/v1/auth/update/${userId}`, data);
+  public async updateUserProfile(data: Partial<UpdateRequest>): Promise<void> {
+    try {
+      const userId = await this.getCurrentUser().then(user => user.id);
+      return this.put<void>(`/api/v1/auth/update/${userId}`, data);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du profil:', error);
+      throw error;
+    }
   }
 }
 
