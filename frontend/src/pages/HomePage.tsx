@@ -1,19 +1,11 @@
-import Header from '../components/layout/Header';
-import HeroSection from '../components/layout/HeroSection';
-import SearchForm from '../components/search/SearchForm';
-import Footer from '../components/layout/Footer';
+import HomeForm from "../components/HomeComponents/HomeForm";
 
 const Home = () => {
     return (
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow">
-          <HeroSection />
-          <SearchForm />
-        </main>
-        <Footer />
-      </div>
-    );
-  };
+        <>
+            <HomeForm />
+        </>
+    )
+};
 
-  export default Home;
+export default Home

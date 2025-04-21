@@ -15,6 +15,9 @@ class CreateUserRequest(UserBase):
 
 UserCreate = CreateUserRequest
 
+class RegisterResponse(BaseModel):
+    message: str
+
 class UserLogin(BaseModel):
     email: EmailStr
     password: str

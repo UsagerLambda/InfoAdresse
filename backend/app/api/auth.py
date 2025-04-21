@@ -6,7 +6,7 @@ from jose import JWTError, jwt # type: ignore
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app.schemas.auth import CreateUserRequest, Token, TokenData, UserResponse, UpdateUserRequest, HistoryItem
+from app.schemas.auth import CreateUserRequest, Token, TokenData, UserResponse, UpdateUserRequest, HistoryItem, RegisterResponse
 from app.models.user import User
 from core.database import get_db
 from core.config import JWT_SECRET_KEY, JWT_ALGORITHM, JWT_ACCESS_TOKEN_EXPIRE_MINUTES
@@ -54,10 +54,10 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
     user = db.query(User).filter(User.id == token_data.id).first() # Vérifie si un utilisateur correspond à l'id récupéré du token
     if user is None:
         raise credentials_exception
-    return user # Renvoie l'utilisateur s'il est trouvé
+    return user
 
-# Prend un groupe d'infos correspondant au model User: UserResponse + la session de la base de donnée SQLAlchemy
-@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+# Prend un groupe d'infos correspondant au model User: RegisterResponse + la session de la base de donnée SQLAlchemy
+@router.post("/register", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
 def register_user(user_data: CreateUserRequest, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user_data.email).first() # Vérifie si un utilisateur existe déja avec l'email donnée
     if existing_user:
@@ -73,7 +73,7 @@ def register_user(user_data: CreateUserRequest, db: Session = Depends(get_db)):
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
-        return new_user.to_dict()
+        return {"message": f"Utilisateur enregistré avec succès !"}
     except IntegrityError:
         db.rollback()
         raise HTTPException(status_code=400, detail="Email déja enregistré")
@@ -140,7 +140,7 @@ def delete_user(user_id: str, current_user: Annotated[User, Depends(get_current_
     db.delete(user_to_delete)
     db.commit()
 
-    return {"message": f"Utilisateur {user_id} supprimé avec succès"}
+    return {"message": f"Utilisateur supprimé avec succès"}
 
 # Prend un id, les infos du modèle UpdateUserRequest, le token de l'utilisateur connecté (si c'est le cas) et la session de la db
 @router.put("/update/{user_id}", status_code=status.HTTP_200_OK)
@@ -186,7 +186,7 @@ def update_user(user_id: str, user_data: UpdateUserRequest, current_user: Annota
 
     try:
         db.commit()
-        return {"message": f"Utilisateur {user_id} mis à jour avec succès"}
+        return {"message": f"Utilisateur mis à jour avec succès"}
     except IntegrityError:
         db.rollback()
         raise HTTPException(
