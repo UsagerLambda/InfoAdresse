@@ -46,18 +46,33 @@ const SearchForm: React.FC = () => {
 		}
 	}
 
+	const button_submit = `w-full px-3 py-1 bg-gray-800 text-white text-lg my-2 font-normal border-1 rounded-md hover:bg-gray-600 transition-colors duration-200`
+
 	return (
-    	<>
-			<h2>Recherchez une adresse</h2>
-			<div>Saisissez une adresse complète</div>
-      		<TextField placeholder="Ex: 20 avenue de Ségur, 75007 Paris" value={address} onChange={(e) => setAddress(e.target.value)}></TextField>
-			<Button onClick={handleSubmit} disabled={isLoading}>{isLoading ? 'Recherche en cours...' : 'Rechercher'}</Button>
+		<>
+			<div className='text-center py-5'>
+				<h1 className='font-semibold text-5xl py-5'>Toutes les informations sur une adresse</h1>
+				<h3 className='font-medium text-xl text-gray-600'>Cadastre, PLU, risques naturels, démographie et plus encore en quelques secondes.</h3>
+			</div>
+    		<div className='p-4 px-7 item-center mx-auto w-4/7 bg-white rounded-lg shadow-md overflow-hidden my-8'>
+				<h2 className='font-semibold text-2xl py-5'>Recherchez une adresse</h2>
+				<div>Saisissez une adresse complète</div>
+      			<TextField
+					placeholder="Ex: 20 avenue de Ségur, 75007 Paris"
+					value={address}
+					onChange={(e) => setAddress(e.target.value)}
+					className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800 my-2"
+					>
+				</TextField>
+				<Button onClick={handleSubmit} disabled={isLoading} className={button_submit}>{isLoading ? 'Recherche en cours...' : 'Rechercher'}</Button>
 
-			{error && <SetError message={error} />}
-			{success && <SetSuccess message={success} />}
-
-			{showResults && searchResult && <ResultForm result={searchResult} visible={showResults} />}
-    	</>
+				{error && <SetError message={error} />}
+				{success && <SetSuccess message={success} />}
+			</div>
+			<div >
+				{showResults && searchResult && <ResultForm result={searchResult} visible={showResults}/>}
+    		</div>
+		</>
   	);
 };
 

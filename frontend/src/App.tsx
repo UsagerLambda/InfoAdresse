@@ -3,8 +3,8 @@ import Home from './pages/HomePage';
 import Auth from './pages/AuthPage';
 import Profil from './pages/ProfilPage';
 import Other from './pages/OtherPage';
-import Footer from './components/layout/footer'
-import Header from './components/layout/header'
+import Footer from './components/layout/Footer'
+import Header from './components/layout/Header'
 
 const App = () => {
   return (

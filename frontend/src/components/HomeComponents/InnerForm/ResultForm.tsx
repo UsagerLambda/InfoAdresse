@@ -2,58 +2,181 @@ import React from 'react';
 import { AddressSearchResult } from '../../../services/index';
 
 interface ResultFormProps {
-  result?: AddressSearchResult | null;
-  visible?: boolean;
+	result?: AddressSearchResult | null;
+	visible?: boolean;
 }
 
 const ResultForm: React.FC<ResultFormProps> = ({ result, visible = false }) => {
-  if (!visible || !result) {
-    return null;
-  }
+	if (!visible || !result) {
+	return null;
+}
 
-  return (
-    <div>
-      <h3>Résultat de la recherche</h3>
-      <div>
-        <p><strong>Adresse :</strong> {result.adresse_normalisee}</p>
-        <p><strong>Ville :</strong> {result.ville}</p>
-        <p><strong>Code postal :</strong> {result.code_postal}</p>
-        <p><strong>Pays :</strong> {result.pays}</p>
-        <p><strong>Coordonnées :</strong> {result.latitude}, {result.longitude}</p>
-        <p><strong>Surface :</strong> {result.m2} m²</p>
-        <p><strong>Population :</strong> {result.population} habitants</p>
-        <p><strong>Zone :</strong> {result.zone}</p>
+return (
+    <div className="p-4 item-center mx-auto w-5/6 bg-white rounded-lg shadow-md overflow-hidden my-8">
+      	<div className="flex justify-between items-center mb-6 border-b pb-3">
+        	<h3 className="text-xl font-bold">Résultats pour <span className="font-medium">{result.adresse_normalisee}</span></h3>
+      	</div>
 
-        {result.risques_naturels.length > 0 && (
-          <div>
-            <p><strong>Risques naturels :</strong></p>
-            <ul>
-              {result.risques_naturels.map((risque, index) => (
-                <li key={index}>{risque}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        
-        {result.risques_industrielles.length > 0 && (
-          <div>
-            <p><strong>Risques industriels :</strong></p>
-            <ul>
-              {result.risques_industrielles.map((risque, index) => (
-                <li key={index}>{risque}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        
-        <p>
-          <a href={result.georisques_url} target="_blank" rel="noopener noreferrer">
-            Voir plus de détails sur Géorisques
-          </a>
-        </p>
-      </div>
+      	<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+{/*=======================================================================*/}
+
+        <div className="bg-white rounded-lg shadow p-4">
+
+          	<h3 className="text-lg font-semibold mb-3">Informations générales</h3>
+
+          	<div className="space-y-2">
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Adresse normalisée</span>
+              		<span>{result.adresse_normalisee}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Ville</span>
+              		<span>{result.ville}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Code postal</span>
+              		<span>{result.code_postal}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Pays</span>
+              		<span>{result.pays}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Population</span>
+              		<span>{result.population} habitants</span>
+            	</div>
+          	</div>
+        </div>
+
+{/*=======================================================================*/}
+
+        <div className="bg-white rounded-lg shadow p-4">
+
+          	<h3 className="text-lg font-semibold mb-3">Coordonnées</h3>
+
+          	<div className="space-y-2">
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Longitude</span>
+              		<span>{result.longitude}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Latitude</span>
+              		<span>{result.latitude}</span>
+            	</div>
+
+          	</div>
+        </div>
+
+{/*=======================================================================*/}
+
+        <div className="bg-white rounded-lg shadow p-4">
+
+          	<h3 className="text-lg font-semibold mb-3">Informations cadastrales</h3>
+
+          	<div className="space-y-2">
+
+            	<div className="flex flex-col">
+             		<span className="text-sm text-gray-500">Feuille</span>
+              		<span>{result.feuille}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Section</span>
+              		<span>{result.zone}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Numéro</span>
+              		<span>{result.numero}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Superficie</span>
+              		<span>{result.m2} m²</span>
+            	</div>
+
+          	</div>
+        </div>
+
+{/*=======================================================================*/}
+
+        <div className="bg-white rounded-lg shadow p-4">
+
+          	<h3 className="text-lg font-semibold mb-3">Plan Local d'Urbanisme</h3>
+
+          	<div className="space-y-2">
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Zone</span>
+              		<span>{result.zone}</span>
+            	</div>
+
+            	<div className="flex flex-col">
+              		<span className="text-sm text-gray-500">Description</span>
+              		<span>Zone urbaine à forte densité</span>
+            	</div>
+
+          	</div>
+        </div>
+
+{/*=======================================================================*/}
+
+        <div className="bg-white rounded-lg shadow p-4">
+
+          	<h3 className="text-lg font-semibold mb-3">Risques naturels</h3>
+
+          	{result.risques_naturels.length > 0 ? (
+            	<div className="space-y-2">
+              	{result.risques_naturels.map((risque, index) => (
+                	<div key={index} className="py-1 px-3 bg-gray-100 rounded-md text-sm">
+                  	{risque}
+                	</div>
+              	))}
+            	</div>
+          	) : (
+            	<div className="py-1 px-3 bg-gray-100 rounded-md text-sm">
+              	Aucun risque naturel recensé
+            	</div>
+          	)}
+          	<a href={result.georisques_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm mt-3 block">
+            	Consulter le dossier complet sur Géorisques
+          	</a>
+        </div>
+
+{/*=======================================================================*/}
+
+        <div className="bg-white rounded-lg shadow p-4">
+
+          	<h3 className="text-lg font-semibold mb-3">Risques industriels</h3>
+
+          	{result.risques_industrielles.length > 0 ? (
+            	<div className="space-y-2">
+              	{result.risques_industrielles.map((risque, index) => (
+                	<div key={index} className="py-1 px-3 bg-gray-100 rounded-md text-sm">
+                  	{risque}
+                	</div>
+              	))}
+            	</div>
+          	) : (
+            	<div className="py-1 px-3 bg-gray-100 rounded-md text-sm">
+              	Aucun risque industriel recensé
+            	</div>
+          	)}
+          	<a href={result.georisques_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm mt-3 block">
+            	Consulter le dossier complet sur Géorisques
+          	</a>
+        </div>
+      	</div>
     </div>
-  );
+  	);
 };
 
 export default ResultForm;

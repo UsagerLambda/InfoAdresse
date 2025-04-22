@@ -34,14 +34,14 @@ const HistoryForm: React.FC = () => {
 			{error && <SetError message={error} />}
 			{success && <SetSuccess message={success} />}
 			<div>
-				<h2>Historique</h2>
+				<h2 className='font-bold text-medium text-xl border-b-4 w-full'>Historique</h2>
 				{historyItems.length === 0 ? (
 					<p>Aucun élément dans l'historique</p>
 				) : (
 					<ul>
 						{historyItems.map((item, index) => (
-							<li key={index}>
-								{item}
+							<li className="my-2 py-1 px-3 rounded-md bg-gray-200" key={index}>
+								● {item}
 							</li>
 						))}
 					</ul>

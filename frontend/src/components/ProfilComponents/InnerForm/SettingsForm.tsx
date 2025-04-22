@@ -34,7 +34,7 @@ const SettingsForm: React.FC = () => {
 		<>
 			{error && <SetError message={error} />}
 			{success && <SetSuccess message={success} />}
-			<Button onClick={handleDelete} disabled={isLoading}>{isLoading ? 'Suppression en cours...' : 'Suppression du compte'}</Button>
+			<Button className="w-full px-3 py-1 text-left bg-red-500 text-lg rounded-md text-white hover:bg-red-400 text-center" onClick={handleDelete} disabled={isLoading}>{isLoading ? 'Suppression en cours...' : 'Suppression du compte'}</Button>
 		</>
   	);
 };

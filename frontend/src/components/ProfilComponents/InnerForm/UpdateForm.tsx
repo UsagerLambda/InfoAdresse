@@ -73,17 +73,38 @@ const UpdateForm: React.FC = () => {
 		  }
   	}
 
+	const button_submit = `w-full px-3 py-1 bg-gray-800 text-white text-lg my-2 font-normal border-1 rounded-md hover:bg-gray-600 transition-colors duration-200`
+
+
 	return (
 		<form onSubmit={handleSubmit} noValidate={false}>
 		  	{error && <SetError message={error} />}
 		  	{success && <SetSuccess message={success} />}
-		  	<TextField required type="text" name="first_name" placeholder="Prénom" value={update.first_name} onChange={handleChange} />
-		  	<TextField required type="text" name="last_name" placeholder="Nom" value={update.last_name} onChange={handleChange} />
-		  	<TextField required type="text" name="email" placeholder="Email" value={update.email} onChange={handleChange} />
-		  	<TextField type="password" name="old_password" placeholder="Votre ancien mot de passe" value={update.old_password} onChange={handleChange} />
-		  	<TextField type="password" name="password" placeholder="Mot de passe" value={update.password} onChange={handleChange} />
-		  	<TextField type="password" name="check_password" placeholder="Confirmez le mot de passe" value={checkPassword} onChange={handleCheckPasswordChange} />
-			<Button type='submit' disabled={isLoading}>{isLoading ? 'Modification en cours...' : 'Modifier le profil'}</Button>
+			<div className="flex gap-4 w-full mb-3">
+				<div className="w-1/2">
+		  			<TextField label="Prénom" className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800" required type="text" name="first_name" placeholder="Prénom" value={update.first_name} onChange={handleChange} />
+				</div>
+				<div className="w-1/2">
+		  			<TextField label="Nom" className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800" required type="text" name="last_name" placeholder="Nom" value={update.last_name} onChange={handleChange} />
+				</div>
+			</div>
+			<div>
+				<div className="mb-3">
+		  			<TextField label="Email" className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800" required type="text" name="email" placeholder="Email" value={update.email} onChange={handleChange} />
+				</div>
+				<div className="mb-3">
+		  			<TextField label="Votre mot de passe actuel" className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800" type="password" name="old_password" placeholder="Votre ancien mot de passe" value={update.old_password} onChange={handleChange} />
+				</div>
+			</div>
+			<div className="flex gap-4 w-full mb-3">
+				<div className="w-1/2">
+		  			<TextField label="Nouveau mot de passe" className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800" type="password" name="password" placeholder="Mot de passe" value={update.password} onChange={handleChange} />
+				</div>
+				<div className="w-1/2">
+		  			<TextField label="Confirmez le nouveau mot de passe" className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800" type="password" name="check_password" placeholder="Confirmez le mot de passe" value={checkPassword} onChange={handleCheckPasswordChange} />
+				</div>
+			</div>
+			<Button className={button_submit} type='submit' disabled={isLoading}>{isLoading ? 'Modification en cours...' : 'Modifier le profil'}</Button>
 			</form>
 	  	);
 

@@ -54,13 +54,22 @@ const LoginForm: React.FC = () => {
 		  }
   	}
 
+	const button_submit = `w-full px-3 py-1 bg-gray-800 text-white text-lg my-2 font-normal border-1 rounded-md hover:bg-gray-600 transition-colors duration-200`
+
   	return (
     	<>
     		{error && <SetError message={error} />}
     		{success && <SetSuccess message={success} />}
-    		<TextField type="text" name="username" placeholder="Email" value={login.username} onChange={handleChange}></TextField>
-    		<TextField type="password"name="password" placeholder="Mot de passe" value={login.password} onChange={handleChange}></TextField>
-    		<Button onClick={handleSubmit} disabled={isLoading}>{isLoading ? 'Connexion en cours...' : 'Connexion'}</Button>
+
+			<div className="w-full mb-4">
+    			<TextField label="Email" type="text" name="username" placeholder="Email" value={login.username} onChange={handleChange} className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800 my-2"></TextField>
+			</div>
+
+			<div className="w-full mb-4">
+    			<TextField label="Mot de passe" type="password"name="password" placeholder="Mot de passe" value={login.password} onChange={handleChange} className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800 my-2"></TextField>
+			</div>
+
+    		<Button onClick={handleSubmit} disabled={isLoading} className={button_submit}>{isLoading ? 'Connexion en cours...' : 'Connexion'}</Button>
     	</>
   	);
 };

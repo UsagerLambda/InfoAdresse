@@ -4,6 +4,7 @@ import UpdateForm from './InnerForm/UpdateForm';
 import SettingsForm from './InnerForm/SettingsForm';
 import HistoryForm from './InnerForm/HistoryForm';
 import { authService } from '../../services';
+import CheckLocalStorage from '../../services/checkLocalStorage';
 
 interface ProfileTabs {
   	activeTab: 'profil' | 'adresse' | 'settings';
@@ -11,6 +12,7 @@ interface ProfileTabs {
 }
 
 const ProfilForm: React.FC<ProfileTabs> = ({activeTab, onTabChange}) => {
+	CheckLocalStorage(5) // Fonction qui vérifie que le token existe toujours (pour les cas ou le token expire lorsque l'utilisateur est sur son profil)
 
 	const handleLogout = () => { // Fonction qui gère la déconnexion
 		authService.logout();
@@ -34,13 +36,31 @@ const ProfilForm: React.FC<ProfileTabs> = ({activeTab, onTabChange}) => {
     	}
   	};
 
+	const firstName = localStorage.getItem("first_name");
+	const lastName = localStorage.getItem("last_name");
+	const email = localStorage.getItem("email");
+	const firstLetter: string = firstName?.[0] ?? "";
+
   	return (
     	<>
-        	<Button onClick={() => onTabChange('profil')}>Modifier mon profil</Button>
-        	<Button onClick={() => onTabChange('adresse')}>Mes adresses sauvegardées</Button>
-        	<Button onClick={() => onTabChange('settings')}>Paramètres de confidentialité</Button>
-        	<Button onClick={handleLogout}>Se déconnecter</Button>
-        	{renderForm()}
+			<div className='w-3/4 item-center mx-auto flex flex-row rounded-lg shadow-md overflow-hidden my-8'>
+				<div className='w-1/4 bg-gray-100 p-4 flex flex-col gap-2'>
+					<div className='flex flex-col items-center mb-4'>
+						<div className="my-2 text-center text-5xl bg-gray-800 text-white font-bold rounded-full w-20 h-20 flex items-center justify-center">
+							{firstLetter}
+						</div>
+						<h2 className="text-lg font-semibold">{firstName} {lastName}</h2>
+          				<h3 className="text-sm text-gray-600">{email}</h3>
+					</div>
+        			<Button className={`w-full px-3 py-1 text-left text-lg rounded-md ${activeTab === 'profil' ? 'bg-gray-800 text-white' : 'bg-gray-200'}`} onClick={() => onTabChange('profil')}>Modifier mon profil</Button>
+        			<Button className={`w-full px-3 py-1 text-left text-lg rounded-md ${activeTab === 'adresse' ? 'bg-gray-800 text-white' : 'bg-gray-200'}`} onClick={() => onTabChange('adresse')}>Mes adresses sauvegardées</Button>
+        			<Button className={`w-full px-3 py-1 text-left text-lg rounded-md ${activeTab === 'settings' ? 'bg-gray-800 text-white' : 'bg-gray-200'}`} onClick={() => onTabChange('settings')}>Paramètres de confidentialité</Button>
+        			<Button className="w-full px-3 py-1 text-left bg-red-500 text-lg rounded-md text-white hover:bg-red-300" onClick={handleLogout}>Se déconnecter</Button>
+				</div>
+				<div className='w-3/4 p-4'>
+          			{renderForm()}
+        		</div>
+			</div>
     	</>
   	);
 };
