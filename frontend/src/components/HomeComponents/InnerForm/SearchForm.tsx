@@ -54,7 +54,7 @@ const SearchForm: React.FC = () => {
 				<h1 className='font-semibold text-5xl py-5'>Toutes les informations sur une adresse</h1>
 				<h3 className='font-medium text-xl text-gray-600'>Cadastre, PLU, risques naturels, démographie et plus encore en quelques secondes.</h3>
 			</div>
-    		<div className='p-4 px-7 item-center mx-auto w-4/7 bg-white rounded-lg shadow-md overflow-hidden my-8'>
+    		<div className='p-4 px-7 item-center mx-auto w-9/10 lg:w-4/7 bg-white rounded-lg shadow-md overflow-hidden my-8'>
 				<h2 className='font-semibold text-2xl py-5'>Recherchez une adresse</h2>
 				<div>Saisissez une adresse complète</div>
       			<TextField

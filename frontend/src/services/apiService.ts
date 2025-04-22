@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { config } from './config.local';
 
 // les lignes 4 à 7 servent à duper ESLint et TS sur l'import AxiosReponse
 export const __keepTypesAlive__ = (): void => {
@@ -6,7 +7,7 @@ export const __keepTypesAlive__ = (): void => {
     void fake;
 };
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = `${config.localIp || 'http://localhost'}:8000`;
 const API_TIMEOUT = 25000;
 
 
