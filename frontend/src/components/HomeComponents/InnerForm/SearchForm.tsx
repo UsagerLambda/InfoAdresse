@@ -64,7 +64,7 @@ const SearchForm: React.FC = () => {
 					className="rounded-md w-full border-1 px-3 py-1 text-lg border-gray-800 my-2"
 					>
 				</TextField>
-				<Button onClick={handleSubmit} disabled={isLoading} className={button_submit}>{isLoading ? 'Recherche en cours...' : 'Rechercher'}</Button>
+				<Button onClick={handleSubmit} disabled={isLoading} className={`${button_submit} ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}>{isLoading ? 'Recherche en cours...' : 'Rechercher'}</Button>
 
 				{error && <SetError message={error} />}
 				{success && <SetSuccess message={success} />}

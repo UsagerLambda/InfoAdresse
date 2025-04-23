@@ -1,5 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { AddressSearchResult } from '../../../services/index';
+import bus from '../../../assets/bus.svg';
+import cycle from '../../../assets/bicycle.svg';
+import global from '../../../assets/globe-earth.svg';
+
 
 interface ResultFormProps {
 	result?: AddressSearchResult | null;
@@ -7,6 +11,18 @@ interface ResultFormProps {
 }
 
 const ResultForm: React.FC<ResultFormProps> = ({ result, visible = false }) => {
+	const longitude = result?.longitude || 1;
+	const latitude = result?.latitude || 1;
+
+	const [selectedLayer, setSelectedLayer] = useState("mapnik");
+
+	const handleLayerChange = (layerValue: string) => {
+        setSelectedLayer(layerValue);
+    };
+
+	const iframeSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${longitude-0.001223}%2C${latitude-0.00073}%2C${longitude+0.001223}%2C${latitude+0.00073}&layer=${selectedLayer}&marker=${latitude}%2C${longitude}`;
+
+
 	if (!visible || !result) {
 	return null;
 }
@@ -56,6 +72,35 @@ return (
 
 {/*=======================================================================*/}
 
+		<div className="bg-white rounded-lg shadow h-full relative">
+
+				<div className="w-full h-64 md:h-full">
+
+					<iframe width="100%" height="100%" src={iframeSrc} className="rounded-lg" style={{border: "none"}}></iframe>
+
+						<div className="absolute top-2 right-2 bg-white rounded-lg shadow p-1 z-10">
+
+      						<div className="flex flex-col space-y-2">
+
+        						<button onClick={() => handleLayerChange("mapnik")} className={`p-2 rounded-md ${selectedLayer === "mapnik" ? "bg-gray-200" : "hover:bg-gray-100"}`}>
+          							<img src={global} alt="Standard" className="w-6 h-6" />
+        						</button>
+
+        						<button onClick={() => handleLayerChange("transportmap")} className={`p-2 rounded-md ${selectedLayer === "transportmap" ? "bg-gray-200" : "hover:bg-gray-100"}`}>
+          							<img src={bus} alt="Transports" className="w-6 h-6" />
+        						</button>
+
+        						<button onClick={() => handleLayerChange("cyclemap")} className={`p-2 rounded-md ${selectedLayer === "cyclemap" ? "bg-gray-200" : "hover:bg-gray-100"}`}>
+          							<img src={cycle} alt="Vélo" className="w-6 h-6" />
+        						</button>
+
+      						</div>
+    					</div>
+					</div>
+				</div>
+
+{/*=======================================================================*/}
+
         <div className="bg-white rounded-lg shadow p-4">
 
           	<h3 className="text-lg font-semibold mb-3">Coordonnées</h3>
@@ -84,13 +129,8 @@ return (
           	<div className="space-y-2">
 
             	<div className="flex flex-col">
-             		<span className="text-sm text-gray-500">Feuille</span>
-              		<span>{result.feuille}</span>
-            	</div>
-
-            	<div className="flex flex-col">
               		<span className="text-sm text-gray-500">Section</span>
-              		<span>{result.zone}</span>
+              		<span>{result.section}</span>
             	</div>
 
             	<div className="flex flex-col">
