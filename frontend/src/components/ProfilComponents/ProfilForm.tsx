@@ -4,7 +4,6 @@ import UpdateForm from './InnerForm/UpdateForm';
 import SettingsForm from './InnerForm/SettingsForm';
 import HistoryForm from './InnerForm/HistoryForm';
 import { authService } from '../../services';
-import CheckLocalStorage from '../../services/checkLocalStorage';
 
 interface ProfileTabs {
   	activeTab: 'profil' | 'adresse' | 'settings';
@@ -12,7 +11,6 @@ interface ProfileTabs {
 }
 
 const ProfilForm: React.FC<ProfileTabs> = ({activeTab, onTabChange}) => {
-	CheckLocalStorage(5) // Fonction qui vérifie que le token existe toujours (pour les cas ou le token expire lorsque l'utilisateur est sur son profil)
 
 	const handleLogout = () => { // Fonction qui gère la déconnexion
 		authService.logout();

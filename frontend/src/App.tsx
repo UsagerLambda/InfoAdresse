@@ -5,6 +5,7 @@ import Profil from './pages/ProfilPage';
 import Other from './pages/OtherPage';
 import Footer from './components/layout/Footer'
 import Header from './components/layout/Header'
+import './services/authChecker';
 
 const App = () => {
   return (
