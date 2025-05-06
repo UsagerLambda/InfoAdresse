@@ -27,3 +27,116 @@ Pour faire fonctionner correctement l'application, vous devez suivre ces étapes
    - L'application devrait maintenant être accessible
 
 Assurez-vous que les deux terminaux restent ouverts pendant toute l'utilisation de l'application.
+
+
+### Diagrammes :
+
+1. **Diagramme de séquence pour la recherche d'adresse**
+
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Frontend
+    participant Backend
+    participant ExternalAPIs
+
+    User->>Frontend: Saisit une adresse
+    Frontend->>Backend: GET /search
+    Backend->>ExternalAPIs: Appel API Adresse
+    ExternalAPIs-->>Backend: Résultat
+    Backend->>ExternalAPIs: Appel cadastre
+    ExternalAPIs-->>Backend: Résultat
+    Backend->>ExternalAPIs: Appel georisques
+    ExternalAPIs-->>Backend: Résultat
+    Backend->>ExternalAPIs: Appel demographie
+    ExternalAPIs-->>Backend: Résultat
+    Backend->>ExternalAPIs: Appel PLU
+    ExternalAPIs-->>Backend: Résultat
+    Backend-->>Frontend: Réponse consolidée
+    Frontend-->>User: Affichage résultats
+
+    alt Utilisateur connecté
+        Frontend->>Backend: POST /api/v1/auth/history_add/{user_id}
+        Backend-->>Frontend: Confirmation ajout historique
+    end
+```
+
+2. **Diagramme de séquence pour la connexion de l'utilisateur**
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Frontend
+    participant Backend
+
+    User->>Frontend: Saisit identifiants
+    Frontend->>Backend: POST /api/v1/auth/login
+
+    Backend->>Backend: Vérifie identifiants
+    Backend->>Backend: Génère JWT token
+
+    Backend-->>Frontend: Retourne token JWT
+    Frontend->>Frontend: Sauvegarde token (localStorage)
+
+    Frontend->>Backend: GET /api/v1/auth/me
+    Backend-->>Frontend: Informations profil
+    Frontend->>Frontend: Sauvegarde les informations (localStorage)
+    Frontend-->>User: Redirige vers accueil
+```
+
+3. **Schéma de la base de données**
+
+```mermaid
+erDiagram
+    USERS {
+        string id PK
+        string first_name
+        string last_name
+        string email
+        string password
+        json history
+        boolean is_admin
+    }
+```
+
+4. **Architecture globale**
+
+```mermaid
+flowchart TD
+    subgraph "Frontend React/TypeScript"
+        FC[Components]
+        FP[Pages]
+        FS[Services]
+    end
+
+    subgraph "Backend FastAPI"
+        BM[Models]
+        BA[API Endpoints]
+        BS[Services]
+        BD[Database]
+    end
+
+    subgraph "External APIs"
+        EA[API Adresse]
+        EC[API Cadastre]
+        EG[API Georisques]
+        ED[API Demographie]
+        EP[API PLU]
+    end
+
+    FC -->|Uses| FS
+    FP -->|Uses| FC
+
+    FS -->|HTTP| BA
+
+    BS -->|Uses| BM
+    BA -->|Uses| BS
+    BS -->|Uses| BD
+
+    BS -->|HTTP| EA
+    BS -->|HTTP| EC
+    BS -->|HTTP| EG
+    BS -->|HTTP| ED
+    BS -->|HTTP| EP
+```
