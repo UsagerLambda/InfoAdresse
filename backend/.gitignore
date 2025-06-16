@@ -4,7 +4,9 @@ __pycache__/
 *$py.class
 *.so
 .Python
+core/config.py
 venv/
+ven/
 
 # Base de données
 *.db

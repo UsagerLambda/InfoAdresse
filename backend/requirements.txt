@@ -9,3 +9,6 @@ pydantic[email]
 httpx
 shapely
 python-dotenv
+pytest
+pytest-asyncio
+slowapi

@@ -1,10 +1,15 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Annotated, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt # type: ignore
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi import get_remote_address
+
+limiter = Limiter(key_func=get_remote_address)
 
 from app.schemas.auth import CreateUserRequest, Token, TokenData, UserResponse, UpdateUserRequest, HistoryItem, RegisterResponse
 from app.models.user import User
@@ -25,9 +30,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.utcnow() + expires_delta
+        expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM) # Création du token avec les infos fournis
     return encoded_jwt
@@ -84,6 +89,7 @@ def register_user(user_data: CreateUserRequest, db: Session = Depends(get_db)):
 # Prend les infos demandées par le formulaire OAuth2 (username (email) & password) + la session de la base de données SQLAlchemy
 # Depends s'assure que le modèle est bien chargé avant d'initialiser l'endpoint
 @router.post("/login", response_model=Token)
+@limiter.limit("5/minute")
 def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == form_data.username).first() # Vérifie l'existence d'un utilisateur correspondant à email donné (username)
 

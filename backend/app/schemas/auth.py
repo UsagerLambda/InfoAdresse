@@ -27,7 +27,7 @@ class UserResponse(UserBase):
     is_admin: bool = False
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Token(BaseModel):
     access_token: str
