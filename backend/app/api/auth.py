@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from typing import Annotated, Optional
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt # type: ignore
 from sqlalchemy.exc import IntegrityError
@@ -90,7 +90,7 @@ def register_user(user_data: CreateUserRequest, db: Session = Depends(get_db)):
 # Depends s'assure que le modèle est bien chargé avant d'initialiser l'endpoint
 @router.post("/login", response_model=Token)
 @limiter.limit("5/minute")
-def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)):
+def login(request: Request, form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == form_data.username).first() # Vérifie l'existence d'un utilisateur correspondant à email donné (username)
 
     if not user or not user.verify_password(form_data.password): # Si aucun utilisateur ou que le mot de passe utilisé n'est pas le bon
